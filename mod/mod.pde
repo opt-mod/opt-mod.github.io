@@ -16,7 +16,8 @@ int cycle = 0;
 
 
 void setup() {
-  size(800, 800, P2D);
+  randomSeed(0);
+  size(1120, 880, P2D);
   hub = new HubC(total_hub, total_vie);
 
   arrival_rate = new double[1440][total_hub][total_hub];
@@ -46,27 +47,68 @@ void draw() {
   stroke(0);
 
 
+  pushMatrix();
+  translate(40,40);
 
-  for (int i = 0; i < total_hub; i++) {
-    PVector a = hub.locations[i];
-    ellipse(a.x, a.y, 5+hub.viecles[i][i], 5+hub.viecles[i][i]);
-    textSize(12);
-    text(hub.viecles[i][i],a.x+2, a.y-2);
-  }
-
+  // Draw edges
   for (int i = 0; i < total_hub; i++) {
     for (int j = i+1; j < total_hub; j++) {
+      strokeWeight(2);
+      fill(60, 160);
+      stroke(180, 160);
       line(hub.locations[i].x, hub.locations[i].y, hub.locations[j].x, hub.locations[j].y);
     }
   }
-  for (int i = 0; i < 2; i ++) {
-  update();
+
+  int highlighted = displayHUD();
+  // Draw vertices
+  for (int i = 0; i < total_hub; i++) {
+    PVector a = hub.locations[i];
+    stroke(20, 240);
+    fill(40);
+    if (highlighted == i) {
+      fill(200, 80, 0, 180);
+      stroke(40, 180);
+    }
+    ellipse(a.x, a.y, 5+hub.viecles[i][i], 5+hub.viecles[i][i]);
+    textSize(12);
+    text(hub.viecles[i][i],a.x+2+hub.viecles[i][i], a.y-2-hub.viecles[i][i]);
   }
+
+  update();
+
   for (Trip a : hub.trips) {
     a.render();
   }
-  printInfo();
+  //printInfo();
+  popMatrix();
 }
+
+int displayHUD() {
+  double minDis = 10000;
+  int selectedL = -1;
+  double curDis = 0;
+  for (int i = 0; i < total_hub; i++) {
+    curDis = distance(new PVector(mouseX-40, mouseY-40), hub.locations[i]);
+    if (curDis < minDis) {
+      selectedL = i;
+      minDis = curDis;
+    }
+  }
+  if (selectedL > -1 && minDis < 50) {
+    pushMatrix();
+    translate(840,0);
+    text("Selected Hub ID: " + selectedL, 0, 0);
+
+
+
+    popMatrix();
+    return selectedL;
+  }
+  return -1;
+}
+
+
 
 void printInfo() {
   textSize(32);
@@ -88,13 +130,21 @@ double[] lp() {
   String cons = "c";
 
   int total_Q = 0;
-  for (int i = 0; i < total_hub; i++){
-    total_Q += hub.waitings[i].size();
-  }
   int total_free = 0;
+
   for (int i = 0; i < total_hub; i++) {
     total_free += hub.viecles[i][i];
   }
+
+  int ave = floor(total_free/total_hub);
+
+  for (int i = 0; i < total_hub; i++){
+    total_Q += hub.waitings[i].size();
+    if (hub.viecles[i][i] - hub.waitings[i].size() <= floor(ave/2)) {
+      total_Q += floor(ave/2) - hub.viecles[i][i];
+    }
+  }
+  total_Q += 1;
 
   for (int i = 0; i < total_hub; i ++) {
     double[] curCons = new double[total_hub*total_hub];
@@ -109,15 +159,12 @@ double[] lp() {
       curCons[j*total_hub + j] = 0;
     }
 
-    double curV;
+    double curV = hub.waitings[i].size() - hub.viecles[i][i] + ave/2;
 
-
-    if (total_Q < total_free) {
-      curV = hub.waitings[i].size() - hub.viecles[i][i];
+    if (total_Q > total_free) {
+      curV = floor(total_free * (hub.waitings[i].size() + ave/2) / total_Q) - hub.viecles[i][i];
     }
-    else {
-      curV = floor(total_free * hub.waitings[i].size() / total_Q) - hub.viecles[i][i];
-    }
+ 
     info[i] = (float)curV + " s" + hub.waitings[i].size() + " v" + hub.viecles[i][i];
 
     lp.addConstraint(new LinearBiggerThanEqualsConstraint(curCons, curV, cons + i));
@@ -181,7 +228,7 @@ void update() {
   if (currentTime % 60 == 0) {
     double[] k = lp();
     println(Arrays.toString(k));
-
+    
     for (int i = 0; i < total_hub; i++) {
       hub.tasks[i].clear();
       for (int j = 0; j < total_hub; j++) {
@@ -265,10 +312,11 @@ class Trip {
 
   void render() {
     if (task == true) {
-      fill(0,0,255);
+      fill(0,0,255, 200);
+      stroke(180,180,180,200);
     }
     else {
-      fill(0);
+      fill(20,200);
     }
     ellipse(cur.x, cur.y, 10, 10);
   }
