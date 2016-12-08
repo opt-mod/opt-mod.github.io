@@ -10,7 +10,7 @@ author: Bingnan Lu, Wenhan Zhu
 
 [Github repository](https://github.com/opt-mod/opt-mod.github.io)
 
-[Website](opt-mod.github.io)
+[Website](https://opt-mod.github.io)
 
 Shared-Vehicle Mobility-On-Demand Systems: Modeling and Optimization of Rebalancing Empty Vehicles over Hub-based Network  
 
