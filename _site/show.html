@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title> Optimization Mobile on Demand Systems</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<style>
+	      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+	      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+	      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+	      body { font-family: 'Droid Serif'; }
+	      h1, h2, h3 {
+	        font-family: 'Yanone Kaffeesatz';
+	        font-weight: normal;
+	      }
+	      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+	</style>
+</head>
+
+	<body>
+        <textarea id="source">
+
+class: center, middle
+### Shared-Vehicle Mobility-On-Demand Systems: Modeling and Optimization of Rebalancing Empty Vehicles over Hub-based Network
+##### By Bingnan Lu and Wenhan Zhu
+
+---
+
+class: center, middle
+#### A MoD system with rebalancing running
+![alt text](./assets/anim.gif)
+
+---
+
+class:  
+#### Setting up the simulation
+1. time
+2. possibility of people showing up
+3. representation of different kind of vehicle movement
+
+---
+class: center, middle
+#### The LP Model
+
+$$
+\begin{array}{lr@{}l}
+\text{min} & \sum\_{i,j \in E} T\_{ij}n\_{ij} \\\\
+\text{s.t.} & \sum\_{j} n\_{ji} - \sum\_{j} n\_{ij} & \geq n\_{i}^{des} - n\_{i}^{exec}, i\in V \\\\
+& n\_{ij} & \geq 0, ij \in E
+\end{array}
+$$
+
+
+        </textarea>
+		    <script src="http://gnab.github.io/remark/downloads/remark-latest.min.js" type="text/javascript"></script>
+    <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script type="text/javascript">
+      var slideshow = remark.create();
+
+      // Setup MathJax
+      MathJax.Hub.Config({
+          tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+      });
+      MathJax.Hub.Queue(function() {
+          $(MathJax.Hub.getAllJax()).map(function(index, elem) {
+              return(elem.SourceElement());
+          }).parent().addClass('has-jax');
+      });
+
+      MathJax.Hub.Configured();
+    </script>
+
+	</body>
+</html>
