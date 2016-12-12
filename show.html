@@ -14,6 +14,35 @@ class: center, middle
 ![alt text](./assets/animog.gif)
 
 ---
+
+class: middle
+#### Introduction
+
+1. Increasingly urbanized world gradually complicates people's sustainable access to mobility service
+2. Blooming of shared-economy market and advancements in mobility technology make it possible to increase the utilization of vehicle through sharing the accessibility across different time windows.
+3. The mobility-on-demand (MoD) service system, Car2Go and Zipcar. 
+4. For MoD operators, one of their goal is to ensuring passengers to have reliable access to mobility service 
+5. High operational cost incurred by using human workforce in rebalancing makes MoD system less desirable compared with Automated MoD system. 
+
+
+---
+
+class: middle
+
+- `\(H = (V_H,E_H)\)` the network with `\(||V_H|| = N\)` hubs and let `\(x_i  \in E_H \subset  \mathbb{R}^2\)` be the location of hub `\(i\)`
+
+- `\(T_{ij} > 0\)` the travel time between hubs `\(i\)` and `\(j\)` 
+- `\(\lambda_{i} (t)\)` the rate of customer arrival at hub `\(i\)` at time `\(t\)`
+
+- `\(\lambda_{ij}(t)\)` the arrival rate at hub `\(i\)` of customer going from `\(i\)` to `\(j\)` at time `\(t\)`
+- `\(\lambda_i(t) = \sum_j {\lambda_{ij}(t)}, ~ \forall ij \in E, ~ t \geq 0, \)`
+- `\(q_i(t)\)`  the total number of demands waiting at hub `\(i\)` at time `\(t\)`
+- `\(v_i(t)\)` the total number of vehicle parked at hub `\(i\)` at time `\(t\)`
+- `\(v_{ij}(t)\)` the total number of vehicles en route from hub `\(i\)` to `\(j\)` at time `\(t\)`
+- `\(n\)` total number of autonomous vehicles, `\(n = \sum_{i \in V} v_i(t) + \sum_{ij \in E} v_{ij}(t)\)`
+
+---
+
 class: center, middle
 #### The LP Model
 
@@ -112,3 +141,39 @@ class: middle, center
 Without rebalancing
 
 ![alt text](./assets/animnore.gif)
+
+---
+class: middle, center
+
+#### Some examples
+
+
+<img src="./assets/1.png" width="600"/>
+---
+class: middle, center
+
+<img src="./assets/2.png" width="600"/>
+---
+class: middle, center
+
+
+<img src="./assets/3.png" width="600"/>
+---
+
+class: middle
+
+#### Conclusion
+
+Formulate the vehicle rebalancing problem of network-based Autonomous Mobility-On-Demand system using linear programing.
+
+Conduct a practical assessment of the logistic benefits associated with various rebalancing schemes.
+
+Use simulation to reveal how customer walk-aways and total empty trip time varies as a function of fleet size.
+
+A graphic simulation of the system.
+
+---
+
+class: middle, center
+
+## Thank you!
