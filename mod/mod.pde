@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-int total_vie = 100;
+int total_vie = 50;
 int total_hub = 10;
 double vie_speed = 10;
 
@@ -10,6 +10,10 @@ HubC hub;
 
 int currentTime = 0;
 String[] info;
+
+int[] lostC;
+
+int ttotal = 0;
 
 int clost = 0;
 int cycle = 0;
@@ -28,12 +32,19 @@ void setup() {
           arrival_rate[i][j][k] = 0;
         }
         else {
-          arrival_rate[i][j][k] = 0.005 * random(0,1);
+          arrival_rate[i][j][k] = 0.010 * random(0,1);
         }
       }
     }
     
   }
+  lostC = new int[total_hub];
+  for (int i = 0; i < total_hub; i++) {
+    lostC[i] = 0;
+  }
+  clost = 0;
+  ttotal = 0;
+
   info = new String[total_hub];
   for (int i = 0; i < total_hub; i++) {
     info[i] = " ";
@@ -61,6 +72,10 @@ void draw() {
   }
 
   int highlighted = displayHUD();
+  textSize(24);
+  text("Lost consumers: " + clost, 20, 20);
+  text("Total Trips: " + ttotal, 20, 50);
+  text("Lost percentage: " + String.format("%.2f", clost*100.0/ttotal) + "%", 20, 80);
   // Draw vertices
   for (int i = 0; i < total_hub; i++) {
     PVector a = hub.locations[i];
@@ -71,8 +86,8 @@ void draw() {
       stroke(40, 180);
     }
     ellipse(a.x, a.y, 5+hub.viecles[i][i], 5+hub.viecles[i][i]);
-    textSize(12);
-    text(hub.viecles[i][i],a.x+2+hub.viecles[i][i], a.y-2-hub.viecles[i][i]);
+    textSize(18);
+    text(lostC[i],a.x+2+hub.viecles[i][i], a.y-2-hub.viecles[i][i]);
   }
 
   update();
@@ -210,6 +225,7 @@ void update() {
       if (hub.waitings[i].get(j).waitTime <= 0) {
         hub.waitings[i].remove(j);
         clost += 1;
+        lostC[i] += 1;
         j = j-1;
       }
     }
@@ -219,6 +235,7 @@ void update() {
       }
     }
     while(hub.viecles[i][i] > 0 && hub.waitings[i].size() > 0) {
+      ttotal += 1;
       hub.trips.add(new Trip(i, hub.waitings[i].get(0).j));
       hub.waitings[i].remove(0);
       hub.viecles[i][i] -= 1;
@@ -312,8 +329,12 @@ class Trip {
 
   void render() {
     if (task == true) {
+      strokeWeight(5);
+      fill(60, 160);
+      stroke(180, 160);
+      line(hub.locations[this.i].x, hub.locations[this.i].y, hub.locations[this.j].x, hub.locations[this.j].y);
+      strokeWeight(1);
       fill(0,0,255, 200);
-      stroke(180,180,180,200);
     }
     else {
       fill(20,200);
@@ -368,8 +389,7 @@ class HubC {
 
 void keyPressed() {
   if (key == 'n') {
-    println("next");
-    update();
+    setup();
   }
 
 }

@@ -31,8 +31,9 @@ We created a simulation to observe the results graphically.
 
 In the animation, the fixed points are the hubs, it's radius indicates the number of avaiable vehicle in each hub. Every hub are connected to each other. The black circles represent vehicles that are carrying consumer from one hub to the other. The circles in blue represent the vehicles that are being rebalanced to other hubs. When the remaining vehicles in a hub reaches a critical points, rebalancing happens. 
 
+#### Background
+The advancements of autonomous vehicle technology in recent years brought inspired car-sharing researchers to incorporate the unique functionality associated with self-driving cars, such as less variable cost and high routing flexibility, into the shared mobility models. More light has been shed on the need to relocate empty vehicles in car sharing systems in couple of years. Some researchers used a user-based solution for rebalancing vehicles, where they considered the effect of economics incentives on drivers driving decision, while others assumes operational rebalancing power of the mobility service platform over individual drivers. However, the operational result from both ways close depend the cost of human labor resource and it may not be impartial to implement in real life. Therefore, considering automated vehicle become more demanding, since vehicles are capable of repositioning themselves. A more detailed literature review could be found in Spieser and Samaranayake's paper.
 
-#### Literature Review (Background)
 
 #### Problem Formulation
 
