@@ -18,6 +18,8 @@ int ttotal = 0;
 int clost = 0;
 int cycle = 0;
 
+boolean reba = true;
+
 
 void setup() {
   randomSeed(0);
@@ -88,6 +90,7 @@ void draw() {
     ellipse(a.x, a.y, 5+hub.viecles[i][i], 5+hub.viecles[i][i]);
     textSize(18);
     text(lostC[i],a.x+2+hub.viecles[i][i], a.y-2-hub.viecles[i][i]);
+    text(hub.viecles[i][i], a.x-15-hub.viecles[i][i], a.y-2-hub.viecles[i][i]);
   }
 
   update();
@@ -242,7 +245,7 @@ void update() {
     }
   }
   
-  if (currentTime % 60 == 0) {
+  if (reba && currentTime % 60 == 0) {
     double[] k = lp();
     println(Arrays.toString(k));
     
@@ -390,6 +393,7 @@ class HubC {
 void keyPressed() {
   if (key == 'n') {
     setup();
+    reba = !reba;
   }
 
 }
