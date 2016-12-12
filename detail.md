@@ -1,15 +1,31 @@
 
 class: center, middle
-# This is a slide!
+### Shared-Vehicle Mobility-On-Demand Systems: Modeling and Optimization of Rebalancing Empty Vehicles over Hub-based Network
+##### By Bingnan Lu and Wenhan Zhu
+
+---
+
+class: center, middle
+#### A MoD system with rebalancing running
+![alt text](./assets/anim.gif)
+
+---
+
+class:  
+#### Setting up the simulation
+1. time
+2. possibility of people showing up
+3. representation of different kind of vehicle movement
 
 ---
 class: center, middle
-## Just a test
+#### The LP Model
+
 $$
-\begin{array}{ll@{}l}
-\text{min}  & \frac{1}{2} {\lVert x - v \rVert}^2 & \\\\
-\text{s.t.} & x \in \mathcal{X}.
+\begin{array}{lr@{}l}
+\text{min} & \sum\_{i,j \in E} T\_{ij}n\_{ij} \\\\
+\text{s.t.} & \sum\_{j} n\_{ji} - \sum\_{j} n\_{ij} & \geq n\_{i}^{des} - n\_{i}^{exec}, i\in V \\\\
+& n\_{ij} & \geq 0, ij \in E
 \end{array}
 $$
 
----
