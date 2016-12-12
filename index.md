@@ -1,7 +1,4 @@
 ---
-# You don't need to edit this file, it's empty on purpose.
-# Edit theme's home layout instead if you wanna make some changes
-# See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 layout: page
 title: Optimization Mobile on Demand Systems
 author: Bingnan Lu, Wenhan Zhu
@@ -11,6 +8,8 @@ author: Bingnan Lu, Wenhan Zhu
 [Github repository](https://github.com/opt-mod/opt-mod.github.io)
 
 [Website](https://opt-mod.github.io)
+
+[Slides](https://opt-mod.github.io/show.html)
 
 Shared-Vehicle Mobility-On-Demand Systems: Modeling and Optimization of Rebalancing Empty Vehicles over Hub-based Network  
 
