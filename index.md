@@ -7,9 +7,13 @@ author: Bingnan Lu, Wenhan Zhu
 
 [Github repository](https://github.com/opt-mod/opt-mod.github.io)
 
-[Website](https://opt-mod.github.io)
-
 [Slides](https://opt-mod.github.io/show.html)
+
+[PDF Version](./assets/report.pdf)
+
+[Matlab Code](./assets/VehicleReblancing.m)
+
+[Try the simulation! (For Window x64 System)](./assets/Simulation.zip)
 
 ### Shared-Vehicle Mobility-On-Demand Systems: Modeling and Optimization of Rebalancing Empty Vehicles over Hub-based Network  
 
@@ -33,7 +37,7 @@ In the animation, the fixed points are the hubs, it's radius indicates the numbe
 
 #### Background
 
-The carsharing system, which was original from Europe in mid nineteenth century, started gaining prominence in American since the 90's. Some early work has been conducted to learn the market for carsharing services, with focus to relate customer interest in such services to demographics [14], urban geography [15,16], and the quality of mobility service [17].The advancements of autonomous vehicle technology in recent years brought inspired car-sharing researchers to incorporate the unique functionality associated with self-driving cars, such as less variable cost and high routing flexibility, into the shared mobility models. More light has been shed on the need to relocate empty vehicles in car sharing systems in couple of years. Some researchers used a user-based solution for rebalancing vehicles, where they considered the effect of economics incentives on drivers driving decision, while others assumes operational rebalancing power of the mobility service platform over individual drivers [19,20]. Different approach ranges from agent-based models [21] to mathematical models [22]. However, the operational result from both ways close depend the cost of human labor resource and it may not be impartial to implement in real life. Therefore, considering automated vehicle become more demanding, since vehicles are capable of repositioning themselves. A more detailed literature review could be found in Spieser and Samaranayake's paper.
+The carsharing system, which was original from Europe in mid nineteenth century, started gaining prominence in American since the 90's. Some early work has been conducted to learn the market for carsharing services, with focus to relate customer interest in such services to demographics [Brook], urban geography [Cervero, Stillwater], and the quality of mobility service [Lorimier].The advancements of autonomous vehicle technology in recent years brought inspired car-sharing researchers to incorporate the unique functionality associated with self-driving cars, such as less variable cost and high routing flexibility, into the shared mobility models. More light has been shed on the need to relocate empty vehicles in car sharing systems in couple of years. Some researchers used a user-based solution for rebalancing vehicles, where they considered the effect of economics incentives on drivers driving decision, while others assumes operational rebalancing power of the mobility service platform over individual drivers [Monica, Weikl]. Different approach ranges from agent-based models [F. Ciari] to mathematical models [Jorge]. However, the operational result from both ways close depend the cost of human labor resource and it may not be impartial to implement in real life. Therefore, considering automated vehicle become more demanding, since vehicles are capable of repositioning themselves. A more detailed literature review could be found in Spieser and Samaranayake's paper.
 
 
 
@@ -89,9 +93,64 @@ Indeed, this method requires certain information about future demand compared wi
 
 When implement either of the models above, we assume the value of $T_p$ is pre-determined. It is not difficult to see the frequency of vehicle rebalancing has significant influence on performance. Too large a $T_p$ dose serve the purpose to dynamically match demand and supply, where demand lost before the rebalancing vehicles arrives. While too little a $T_p$ will lead to inefficient balancing, where you may result in rebalancing vehicles from both hub $i$ to $j$ and $j$ to $i$ at the same time. 
 
+#### Numerical Analysis
 
-#### Simulation Result
+##### Assumptions and Setup
 
-#### Conclusion and Future Improvement
+To evaluate the system performance under different rebalancing policies, we conduct simulation of vehicle rebalancing over our self-generated random network. The arrival rate and directional choice (i.e. the choice of destination of customers) are set randomly in every simulation case. In order to generate comparable result between different rebalancing policies, we controlled the network structure, arrival rates, directional choice, rebalancing frequency and fleet size to be the same. Without losing of generality, the operational region is assume to be as a square with randomly located hubs. The trip time between any two hubs are represented by the distance in between, where we assume all homogeneous road condition and driving speed. We further assume that under the feedback + proportional predictive rebalancing policy, the future demand rate is known perfectly to the service operator. 
 
-#### Reference
+The detailed simulation procedure is given as following with more details shown in the attached Matlab Code. For each simulation, we decide the frequency to update the system status by setting the time updating step size $\tau$, which is chosen to be small compared with rebalancing frequency. We will track how system operates every $\tau$ time. At a given time of consideration, we generate the demand on each hub and compute the walk-aways, followed by updating customer queues. Then, compute inbound vehicles at each hub and update total number of parked vehicles. After that, the waiting customers and empty vehicles are matched and sent away based on first-come-first-serve policy.  We updates the trip time of departure vehicles as well as the remaining customers. Lastly, we compute and deploy the optimal rebalancing strategy based on the system status and update the trip time of rebalancing vehicles.
+
+##### Numerical Results
+
+In this section, we try to establish relations between fleet size and several system performance metric. Also, we show how service level and empty vehicle trip time vary across different policies. Since our numerical result are  based on our self-generated randomized demand data, which dose perfectly fits to the real cace. the result did not give the a fluent graph across over different fleet size. However, the directional relation between the variables are preserved and can be clearly explained and related to the real world. 
+
+We observe that rebalancing significantly improves the service level (Figure 1). This means using an rebalancing policy, the service operator would dramatically reduce the fleet size while achieving the same quality of service. The benefit of rebalancing is most significant when the fleet size is small. In this situation, demand exceed the supply that could be provided by limited fleet size and most demand lost due to uneven supply of vehicles, which is an inevitable result from uneven demand. Doing rebalancing will alleviate the unevenness of the supply and gives a higher chance to capture each demand. The increase of vehicle utilization compensate the limitation from insufficient vehicle supply. 
+
+<img src="./assets/Walkaways1.png" width="600"/>
+
+Also we can see the walk-aways have a nearly linear relation with the fleet size when no rebalancing is performance. Under insufficient supply, every addition vehicle will have vary close marginal benefit in terms of reducing walk-aways, which give a linear relation. However, as the fleet size increases and exceed the demand level. The cost of lost demand will move from insufficient supply to uneven allocation of excess supply, meaning there will be empty vehicle waiting at one place and demand losing at other place. This is the case where increasing fleet will give a reducing marginal benefits, which is shown in Figure 2. Similar trends can be observed under the rebalancing policy. However, the nonlinear marginal benefit under rebalancing policy starts even when fleet size is small. This is because the effect of rebalancing reduce the impact of expanding fleet size, making adding extra vehicles most benefit when fleet size is small. 
+
+We can also see that the benefit of increasing fleet size have different power of effect on rebalancing policies, depending on whether prediction is permitted. When we rebalance the empty with future knowledge, the utility of each individual vehicle has a higher utilization rate compared with rebalancing purely based on the currently system status (Figure 1). As the fleet size increases, this difference becomes less obvious and its impact is override by the large fleet size. 
+
+![<img src="./assets/Walkaways2.png" width="600"/>
+
+Besides service level, we also observes how rebalancing strategy influences the operational cost (Figure 3). With doubt, no rebalancing gives a zero empty vehicle trip time. First, we can see the empty trip time decreases as the fleet size increases. This is as expected since larger fleet size provides more supply and reduce the chance that a given hub runs out of vehicles. Less rebalancing is needed when each hub have stronger power to handle uneven demand. 
+
+We also observes when fleet size is small, empty trip time does not decrease significantly as fleet size. It is because when system is under insufficient supply, all the vehicles are experiencing some frequency of rebalancing to match the uneven demand, since most of the time, they are serving a demand rather than waiting to be rebalancing at hubs. Here the mainly limitation of the systems performance is still fleet size. Any additional vehicle joining the system will also experiencing similar level of rebalancing, which gives a relatively even empty trip time. 
+
+
+
+<img src="./assets/Triptime1.png" width="600"/>
+
+However, under the case of rebalancing with prediction, the empty trip time have a trend of increase when fleet size is small (Figure 3). For a very small fleet size, there are more demand in the upcoming time window than available vehicles. The supply becomes even more insufficient compared with the previous case of rebalancing without predication. When the fleet is expand, the additional vehicle will have the similar level of rebalancing as those that were already in the system, due to insufficient total supply. Therefore the total empty trip time increases as fleet size increases. As fleet size further increases, supply reaches demand and it becomes less desirable to frequently perform rebalancing, which leads to the decreasing trend further down the graph.  
+
+##### Conclusion
+
+In this project, we focusing on answering how rebalancing empty vehicle influence the performance of Autonomous Mobility On-Demand system. We first model the problem using a hub-based network system and model the vehicle rebalancing problem using linear programming. We simulate the system based on our randomized demand and trip directional information over discrete time interval, where rebalancing problem is solved multiple time in the simulation. We provide structural result of how fleet size influence the system performance across different policies. The results shows that rebalancing benefits the systems most effective when fleet size is small. We also provided online simulation tool box to visualize the rebalancing process. 
+
+##### Future works
+
+Currently, the result is based on arrival data generated based our common knowledge rather than from the real data. It will be better if we our model could be simulated using real data to see whether results correspond. In the simulation, the rebalancing frequency is chosen independently with the system status. In the future, besides optimizing rebalancing strategy, we can also choice the best rebalancing frequency based on some given performance metric over a fixed time interval. We expect to see different structural results when rebalancing frequency becomes a decision variable. 
+
+
+
+#### References
+
+Brook, D., Carsharing: startup issues and new operational models. Proc. *Transportation Research Board Annual Meeting*, 2004.
+
+Cervero, R., City CarShare: First-Year Travel Demand Impacts. *Transportation Research Record*, 2003.
+
+Stillwater, T., P. Mokhtarian, and S. Shaheen, Carsharing and the built environment: A GIS-based study of one U.S. Operator. *Inst. of Transportation Studies, Univ. of California*, 2008.
+
+Lorimier, A., Understanding the factors affecting vehicle usage and availability in carsharing networks: a case study of Communauto carsharing system from Montreal, Canada. *International Journal of Sus- tainable Transportation*, 2011.
+
+Monica Clemente, A. M. M. W. U., Maria Pia Fanti, The Vehicle Relocation Problem in Car Sharing Systems: Modeling and Simulation in a Petri Net Framework. *34th International Conference, PETRI NETS 2013, Milan, Italy, June 24-28, 2013. Proceedings*, 2013, pp. 250–269.
+
+Weikl, S. and K. Bogenberger, Relocation Strategies and Algorithms for Free-Floating Car Sharing Systems. *Intelligent Transportation Systems Magazine*, IEEE, Vol. 5, No. 4, 2013, pp. 100–111.
+
+F. Ciari, K. A., C. Dobler, Modeling one-way shared vehicle systems: an agent-based approach. *13th International Conference on Travel Behaviour Research*, Toronto July 2012, 2012.
+
+Jorge, D., G. Correia, and C. Barnhart, Comparing Optimal Relocation Operations With Simulated Relocation Policies in One-Way Carsharing Systems. *Intelligent Transportation Systems, IEEE Trans- actions on*, Vol. 15, No. 4, 2014, pp. 1667–1675.
+
+
